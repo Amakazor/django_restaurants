@@ -10,6 +10,7 @@ class Restaurant(models.Model):
     country = models.TextField()
     city = models.TextField()
     street_address = models.TextField()
+    is_active = models.BooleanField(default=False)
 
 class Review(models.Model):
     title = models.CharField(max_length=50)
