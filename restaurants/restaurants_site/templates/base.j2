@@ -1,0 +1,19 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pl-PL">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Reviews of popular places to eat">
+        <meta name="keywords" content="Review, Reviews, Restaurant, Restaurants, Food, Ranking">
+
+        <title>{% block title %}Recenzje restauracji{% endblock title %}</title>
+        <link rel="stylesheet" type="text/css" href="{% static 'css/reset.css' %}"/>
+        <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
+    </head>
+
+    <body>
+        {% block content %}{% endblock content %}
+    </body>
+</html>
