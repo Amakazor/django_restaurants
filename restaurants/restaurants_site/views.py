@@ -22,3 +22,15 @@ def home(request: request):
     page_object = paginator.get_page(page_number)
 
     return render(request, 'home.j2', {'page_object': page_object, 'sort_fields': sort_fields, 'current_sort_direction': sort_direction, 'current_order': current_order})
+
+def authtest(request):
+    return render(request, "authentication/authtest.html")
+
+def signup(request):
+    return render(request, "authentication/signup.html")
+
+def signin(request):
+    return render(request, "authentication/signin.html")
+
+def signout(request):
+    pass

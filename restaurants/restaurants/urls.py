@@ -23,4 +23,9 @@ import restaurants_site.views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', restaurants_site.views.home),
+    path('signup', restaurants_site.views.signup),
+    path('signin', restaurants_site.views.signin),
+    path('signout', restaurants_site.views.signout),
+    path('authtest', restaurants_site.views.authtest),
+
 ] + static(settings.MEDIA_ROOT, document_root=settings.MEDIA_ROOT)
