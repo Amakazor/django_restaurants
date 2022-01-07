@@ -1,0 +1,77 @@
+.restaurantTile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+
+  overflow: hidden;
+
+  border: 0.0625rem solid var(--color-border);
+  border-radius: 0.5rem;
+
+  padding: 2rem 0;
+
+  &__title {
+    font-weight: 600;
+    font-size: 2em;
+    padding: 2rem 1rem;
+  }
+
+  &__imageWrapper {
+    position: relative;
+
+    &::after {
+      content: "➔";
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+
+      width: 100%;
+      height: 100%;
+
+      background: var(--color-overlay);
+      color: var(--color-white);
+
+      font-size: 10em;
+      font-weight: 700;
+
+      transform: translateX(-100%);
+
+      transition: transform var(--time-normal) var(--easing-in-out);
+    }
+  }
+
+  &__image {
+    display: block;
+    max-width: 100%;
+  }
+
+  &__excerpt,
+  &__rate {
+    padding: 0 1rem;
+  }
+
+  &__stars {
+    font-size: 2.75em;
+    -webkit-text-stroke: 0.0625rem var(--color-outline);
+    letter-spacing: 0.75rem;
+
+    &--full {
+      color: var(--color-star-full);
+    }
+
+    &--empty {
+      color: var(--color-star-empty);
+    }
+  }
+
+  &:hover > .restaurantTile__imageWrapper::after {
+    transform: translateX(0);
+  }
+}

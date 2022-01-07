@@ -1,0 +1,27 @@
+{% extends "base.j2" %}
+{% load static %}
+
+{% block title %}
+    Recenzje restauracji
+{% endblock title %}
+
+{% block content %}
+    <main>
+        <div class="container">
+            {% include "components/sortSelects.j2" %}
+            <div class="mainGrid">
+                {% for restaurant in page_object %}
+                    <a href="/restaurants/{{ restaurant.slug }}" class="restaurantTile">
+                        <span class="restaurantTile__title">{{ restaurant.name }}</span>
+                        <span class="restaurantTile__imageWrapper"><img class="restaurantTile__image" src="{{ restaurant.image }}"/></span>
+                        <span class="restaurantTile__excerpt">{{ restaurant.excerpt }}</span>
+                        <span class="restaurantTile__rate">
+                            <span class="restaurantTile__stars restaurantTile__stars--full">{{ restaurant.stars_full }}</span><span class="restaurantTile__stars restaurantTile__stars--empty">{{ restaurant.stars_empty }}</span>
+                        </span>
+                    </a>
+                {% endfor %}
+            </div>
+            {% include "components/pagination.j2" %}
+        </div>
+    </main>
+{% endblock content %}

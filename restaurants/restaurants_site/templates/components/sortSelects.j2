@@ -1,0 +1,11 @@
+<div class="sortSelect">
+    <select class="stylizedSelect sortSelect__sort sortSelect__sort--property">
+        {% for field in sort_fields %}
+            <option value="{{ field }}" {% if field == current_order %}selected{% endif %}>{{field}}</option>
+        {% endfor %}
+    </select>
+    <select class="stylizedSelect sortSelect__sort sortSelect__sort--direction">
+        <option value="ASC" {% if 'ASC' == current_sort_direction %}selected{% endif %}>Ascending</option>
+        <option value="DESC" {% if 'DESC' == current_sort_direction %}selected{% endif %}>Descending</option>
+    </select>
+</div>

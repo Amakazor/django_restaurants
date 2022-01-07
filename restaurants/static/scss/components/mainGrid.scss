@@ -1,0 +1,17 @@
+.mainGrid {
+  width: 100%;
+  max-width: 100%;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  grid-auto-rows: 1fr;
+
+  gap: 2rem;
+
+  margin-top: 5rem;
+  margin-bottom: 5rem;
+
+  @media screen and (max-width: 450px) {
+    grid-template-columns: 100%;
+  }
+}

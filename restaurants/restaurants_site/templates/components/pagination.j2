@@ -1,0 +1,27 @@
+<div class="pagination">
+    {% if page_object.number > 2 %}
+        <a tabindex="0" href="?page=1&order={{current_order}}&direction={{current_sort_direction}}" class="pagination__page_link page_link--end">1</a>
+    {% endif %}
+
+    {% if page_object.number > 3 %}
+        <div class="pagination__page_link pagination__page_link--separator">...</div>
+    {% endif %}
+
+    {% if page_object.number > 1 %}
+        <a tabindex="0" href="?page={{page_object.number|add:'-1'}}&order={{current_order}}&direction={{current_sort_direction}}" class="pagination__page_link">{{page_object.number|add:'-1'}}</a>
+    {% endif %}
+
+    <div tabindex="0" class="pagination__page_link pagination__page_link--current">{{ page_object.number }}</div>
+
+    {% if page_object.number < page_object.paginator.num_pages|add:'-1' %}
+        <a tabindex="0" href="?page={{page_object.number|add:1 }}&order={{current_order}}&direction={{current_sort_direction}}" class="pagination__page_link">{{ page_object.number|add:1 }}</a>
+    {% endif %}
+
+    {% if page_object.number < page_object.paginator.num_pages|add:'-2' %}
+        <div class="pagination__page_link pagination__page_link--separator">...</div>
+    {% endif %}
+
+    {% if page_object.number < page_object.paginator.num_pages %}
+        <a tabindex="0" href="?page={{page_object.paginator.num_pages }}&order={{current_order}}&direction={{current_sort_direction}}" class="pagination__page_link pagination__page_link--end">{{ page_object.paginator.num_pages }}</a>
+    {% endif %}
+</div>

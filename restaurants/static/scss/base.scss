@@ -1,0 +1,34 @@
+:root {
+  --color-primary: rgb(67, 29, 78);
+  --color-border: rgb(133, 133, 133);
+  --color-star-full: rgb(250, 187, 4);
+  --color-star-empty: rgb(238, 238, 238);
+  --color-outline: rgb(0, 0, 0);
+  --color-overlay: rgba(0, 0, 0, 0.5);
+  --color-white: rgb(255, 255, 255);
+
+  --borderStandard: 0.125rem solid;
+  --borderThin: 0.065rem solid;
+  --borderRadiusStandard: 0.25rem;
+
+  --time-fast: 300ms;
+  --time-normal: 500ms;
+
+  --easing-in-out: ease-in-out;
+}
+
+body {
+  font-family: "Source Sans Pro", sans-serif;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding: 2rem 0;
+}
+
+.container {
+  width: min(1440px, 90%);
+}
