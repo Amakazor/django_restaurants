@@ -68,6 +68,7 @@ wheels/
 *.manifest 
 *.spec 
 uploads/
+staticroot/
 
 # Installer logs 
 pip-log.txt 

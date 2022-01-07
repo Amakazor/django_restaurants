@@ -30,9 +30,21 @@ class Restaurant(models.Model):
     def excerpt(self) -> str:
         return self.description[0:200] + ('' if len(self.description) <= 200 else '...')
 
+    @property
+    def reviews(self):
+        return Review.objects.filter(restaurant = self)
+
 class Review(models.Model):
     title = models.CharField(max_length=50)
     description = models.TextField()
     rate = models.PositiveSmallIntegerField()
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+    @property
+    def stars_full(self) -> str:
+        return "★" * self.rate
+
+    @property
+    def stars_empty(self) -> str:
+        return "★" * (5 - self.rate)
