@@ -23,7 +23,9 @@ def home(request: request):
     page_number = request.GET.get('page')
     page_object = paginator.get_page(page_number)
 
-    return render(request, 'home.j2', {'page_object': page_object, 'sort_fields': sort_fields, 'current_sort_direction': sort_direction, 'current_order': current_order})
+    no_restaurants = len(restaurants) == 0
+
+    return render(request, 'home.j2', {'page_object': page_object, 'sort_fields': sort_fields, 'current_sort_direction': sort_direction, 'current_order': current_order, 'no_restaurants': no_restaurants})
 
 def restaurant(request: request, slug: str):
     try:
