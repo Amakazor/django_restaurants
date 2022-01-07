@@ -5,7 +5,7 @@ from django.db import models
 
 class Restaurant(models.Model):
     name = models.TextField()
-    slug = models.SlugField()
+    slug = models.SlugField(unique=True)
     description = models.TextField()
     google_maps_embed_link = models.TextField()
     image = models.ImageField(upload_to="uploads/")
