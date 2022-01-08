@@ -11,10 +11,12 @@
         <div class="restaurant__rate">
             <span class="restaurantTile__stars restaurantTile__stars--full">{{ restaurant.stars_full }}</span><span class="restaurantTile__stars restaurantTile__stars--empty">{{ restaurant.stars_empty }}</span>
         </div>
-        <img class="restaurant__image" src="../../{{ restaurant.image }}"/>
+        <img class="restaurant__image" src="../../uploads/{{ restaurant.image }}"/>
         <div class="restaurant__description">{{ restaurant.description }}</div>
         <div class="restaurant__address">{{ restaurant.country }}, {{ restaurant.city }}, {{ restaurant.street_address }}</div>
-        <iframe class="restaurant__map" src={{restaurant.google_maps_embed_link}} allowfullscreen="" loading="lazy"></iframe>
+        {% if restaurant.google_maps_embed_link %}
+            <iframe class="restaurant__map" src={{restaurant.google_maps_embed_link}} allowfullscreen="" loading="lazy"></iframe>
+        {% endif %}
         {% include "components/addReview.j2" %}
         {% include "components/reviews.j2" %}
     </div>

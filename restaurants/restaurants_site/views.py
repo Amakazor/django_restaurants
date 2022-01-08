@@ -5,6 +5,7 @@ from django.shortcuts import render
 from django.core.paginator import Paginator
 from restaurants_site.models import Review
 from restaurants_site.forms import AddReviewForm
+from restaurants_site.forms import AddRestaurantForm
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -16,7 +17,7 @@ from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.utils.encoding import force_bytes, force_str
 from . tokens import generate_token
 import re
-
+from django.template.defaultfilters import slugify
 
 from restaurants_site.models import Restaurant
 
@@ -161,3 +162,21 @@ def activate(request, uidb64, token):
     else:
         return render(request, "authentication/activation_failed.j2")
 
+def add_restaurant(request):
+    add_restaurant_form = AddRestaurantForm(request.POST, request.FILES)
+
+    if request.user.is_authenticated and add_restaurant_form.is_valid():
+        restaurant = add_restaurant_form.save(commit= False)
+        restaurant.is_active = False
+        restaurant.slug = slugify(restaurant.name)
+
+        i = 1
+        while len(Restaurant.objects.filter(slug = restaurant.slug)) > 0:
+            restaurant.slug = slugify(restaurant.name + str(i))
+            i += 1
+
+        restaurant.save()
+    else:
+        print(add_restaurant_form.errors)
+
+    return render(request, "add_restaurant.j2", {'form': add_restaurant_form})

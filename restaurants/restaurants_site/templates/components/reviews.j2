@@ -1,12 +1,14 @@
-<div class="reviews">
-    <h2 class="reviews__heading">Opinie użytkowników</h2>
-    {% for review in restaurant.reviews %}
-        <div class="reviews__review">
-            <div class="reviews__title">{{review.title}}</div>
-            <div class="reviews__rate">
-                <span class="reviews__stars reviews__stars--full">{{ review.stars_full }}</span><span class="reviews__stars reviews__stars--empty">{{ review.stars_empty }}</span>
+{% if restaurant.reviews %}
+    <div class="reviews">
+        <h2 class="reviews__heading">Opinie użytkowników</h2>
+        {% for review in restaurant.reviews %}
+            <div class="reviews__review">
+                <div class="reviews__title">{{review.title}}</div>
+                <div class="reviews__rate">
+                    <span class="reviews__stars reviews__stars--full">{{ review.stars_full }}</span><span class="reviews__stars reviews__stars--empty">{{ review.stars_empty }}</span>
+                </div>
+                <div class="reviews__description">{{review.description}}</div>
             </div>
-            <div class="reviews__description">{{review.description}}</div>
-        </div>
-    {% endfor %}
-</div>
+        {% endfor %}
+    </div>
+{% endif %}

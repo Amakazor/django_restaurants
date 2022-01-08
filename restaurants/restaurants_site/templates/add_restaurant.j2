@@ -1,0 +1,16 @@
+{% extends "base.j2" %}
+
+{% block title %}
+    Recenzje restauracji - Dodaj restaurację
+{% endblock title %}
+
+{% block content %}
+    <div class="add_review">
+        <h2 class="styledForm__heading">Dodaj nową restaurację</h2>
+        <form class="styledForm" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form }}
+            <input class="button button--primary" type="submit" value="Dodaj">
+        </form>
+    </div>
+{% endblock content %}
