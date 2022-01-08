@@ -12,7 +12,7 @@ urlpatterns = [
     path('signin', restaurants_site.views.signin),
     path('signout', restaurants_site.views.signout),
     path('add', restaurants_site.views.add_restaurant),
-    path('activate/<uidb64>/<token>', restaurants_site.views.activate),
+    path('activate/<str:uid64>/<str:token>', restaurants_site.views.activate, name="activate"),
     path('', restaurants_site.views.home),
     path('<str:catchall>', restaurants_site.views.redirect),
 

@@ -99,20 +99,23 @@ def signup(request: request):
         if len(messages.get_messages(request)) > 0:
             return render(request, "authentication/signup.j2")
 
-        myuser = User.objects.create_user(username, email, password)
+        myuser = User()
+        myuser.username = username
+        myuser.email = email
+        myuser.password = password
         myuser.first_name = firstname
         myuser.last_name = lastname
         myuser.is_active = False
 
         myuser.save()
 
-        messages.success(request, "Your account has been created")
+        messages.success(request, "Twoje konto zostało utworzone")
 
         current_site = get_current_site(request)
 
         #Email
         subject = "[APP] Confirm mail!"
-        message = render_to_string('email_confirmation.j2',{
+        message = render_to_string('authentication/email_confirmation.j2',{
             'name': myuser.first_name, 
             'domain':current_site.domain, 
             'uid': urlsafe_base64_encode(force_bytes(myuser.pk)),
@@ -147,9 +150,9 @@ def signout(request):
     logout(request)
     return HttpResponseRedirect("/")
 
-def activate(request, uidb64, token):
+def activate(request, uid64, token):
     try:
-        uid = force_str(urlsafe_base64_decode(uidb64))
+        uid = force_str(urlsafe_base64_decode(uid64))
         myuser = User.objects.get(pk=uid)
     except (TypeError, ValueError, OverflowError, User.DoesNotExist):
         myuser = None
