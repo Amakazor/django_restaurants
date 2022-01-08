@@ -1,0 +1,19 @@
+{% extends "base.j2" %}
+
+{% block title %}
+    Recenzje restauracji - Logowanie
+{% endblock title %}
+{% block content %}
+    <div class="container container--centered">
+        <h2 class="styledForm__heading">Zaloguj się</h2>
+        {% include "components/alerts.j2" %}
+        <form class="styledForm" action="/signin" method="post">
+            {% csrf_token %}
+            <label for="">Login</label>
+            <input type="text" id="usermame" name="username" required>
+            <label for="">Hasło</label>
+            <input type="password" id="password" name="password" required>
+            <button type="submit" class="button button--primary">Zaloguj się</button>
+        </form>
+    </div>
+{% endblock content %}

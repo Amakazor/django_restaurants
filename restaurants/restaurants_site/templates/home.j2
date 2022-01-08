@@ -7,26 +7,24 @@
 
 {% block content %}
     {% include "components/hero.j2" %}
-    <main>
-        <div class="container">
-            {% if no_restaurants %}
-                <h3 class="subheading">Obecnie brak restauracji, spróbuj ponownie później</h3>
-            {% else %}
-                {% include "components/sortSelects.j2" %}
-                <div class="mainGrid">
-                    {% for restaurant in page_object %}
-                        <a href="/restaurant/{{ restaurant.slug }}" class="restaurantTile">
-                            <span class="restaurantTile__title">{{ restaurant.name }}</span>
-                            <span class="restaurantTile__imageWrapper"><img class="restaurantTile__image" src="{{ restaurant.image }}"/></span>
-                            <span class="restaurantTile__excerpt">{{ restaurant.excerpt }}</span>
-                            <span class="restaurantTile__rate">
-                                <span class="restaurantTile__stars restaurantTile__stars--full">{{ restaurant.stars_full }}</span><span class="restaurantTile__stars restaurantTile__stars--empty">{{ restaurant.stars_empty }}</span>
-                            </span>
-                        </a>
-                    {% endfor %}
-                </div>
-                {% include "components/pagination.j2" %}
-            {% endif %}
-        </div>
-    </main>
+    <div class="container">
+        {% if no_restaurants %}
+            <h3 class="subheading">Obecnie brak restauracji, spróbuj ponownie później</h3>
+        {% else %}
+            {% include "components/sortSelects.j2" %}
+            <div class="mainGrid">
+                {% for restaurant in page_object %}
+                    <a href="/restaurant/{{ restaurant.slug }}" class="restaurantTile">
+                        <span class="restaurantTile__title">{{ restaurant.name }}</span>
+                        <span class="restaurantTile__imageWrapper"><img class="restaurantTile__image" src="{{ restaurant.image }}"/></span>
+                        <span class="restaurantTile__excerpt">{{ restaurant.excerpt }}</span>
+                        <span class="restaurantTile__rate">
+                            <span class="restaurantTile__stars restaurantTile__stars--full">{{ restaurant.stars_full }}</span><span class="restaurantTile__stars restaurantTile__stars--empty">{{ restaurant.stars_empty }}</span>
+                        </span>
+                    </a>
+                {% endfor %}
+            </div>
+            {% include "components/pagination.j2" %}
+        {% endif %}
+    </div>
 {% endblock content %}

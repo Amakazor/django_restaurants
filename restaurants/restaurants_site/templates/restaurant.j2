@@ -6,18 +6,16 @@
 {% endblock title %}
 
 {% block content %}
-    <main>
-        <div class="container restaurant">
-            <h1 class="restaurant__title restaurant__title--bigger">{{ restaurant.name }}</h1>
-            <div class="restaurant__rate">
-                <span class="restaurantTile__stars restaurantTile__stars--full">{{ restaurant.stars_full }}</span><span class="restaurantTile__stars restaurantTile__stars--empty">{{ restaurant.stars_empty }}</span>
-            </div>
-            <img class="restaurant__image" src="../../{{ restaurant.image }}"/>
-            <div class="restaurant__description">{{ restaurant.description }}</div>
-            <div class="restaurant__address">{{ restaurant.country }}, {{ restaurant.city }}, {{ restaurant.street_address }}</div>
-            <iframe class="restaurant__map" src={{restaurant.google_maps_embed_link}} allowfullscreen="" loading="lazy"></iframe>
-            {% include "components/addReview.j2" %}
-            {% include "components/reviews.j2" %}
+    <div class="container restaurant">
+        <h1 class="restaurant__title restaurant__title--bigger">{{ restaurant.name }}</h1>
+        <div class="restaurant__rate">
+            <span class="restaurantTile__stars restaurantTile__stars--full">{{ restaurant.stars_full }}</span><span class="restaurantTile__stars restaurantTile__stars--empty">{{ restaurant.stars_empty }}</span>
         </div>
-    </main>
+        <img class="restaurant__image" src="../../{{ restaurant.image }}"/>
+        <div class="restaurant__description">{{ restaurant.description }}</div>
+        <div class="restaurant__address">{{ restaurant.country }}, {{ restaurant.city }}, {{ restaurant.street_address }}</div>
+        <iframe class="restaurant__map" src={{restaurant.google_maps_embed_link}} allowfullscreen="" loading="lazy"></iframe>
+        {% include "components/addReview.j2" %}
+        {% include "components/reviews.j2" %}
+    </div>
 {% endblock content %}

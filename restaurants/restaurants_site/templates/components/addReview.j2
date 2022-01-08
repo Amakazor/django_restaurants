@@ -1,13 +1,13 @@
 <div class="add_review">
-    <h2 class="add_review__heading">Dodaj swoją opinię</h2>
+    <h2 class="styledForm__heading">Dodaj swoją opinię</h2>
     {% if user_logged %}
         {% if form_completed%}
             <h3 class="add_review__subheading">Opinia dodana</h3>
         {% else %}
-            <form class="add_review__form" method="post">
+            <form class="add_review__form styledForm" method="post">
                 {% csrf_token %}
                 {{ review_form }}
-                <input class="add_review__button" type="submit" value="Dodaj!">
+                <input class="button button--primary" type="submit" value="Dodaj!">
             </form>
         {% endif %}
     {% else %}

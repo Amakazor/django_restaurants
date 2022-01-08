@@ -1,0 +1,9 @@
+{% autoescape off %}
+
+Hej {{ name }}
+
+Kliknij poniżej, aby potwierdzić swoją rejestrację:
+
+Link aktywacyjny: http://{{ domain }}{% url 'activate' uid64=uid token=token %}
+
+{% endautoescape %}

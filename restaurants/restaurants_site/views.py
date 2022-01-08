@@ -15,6 +15,7 @@ from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.utils.encoding import force_bytes, force_str
 from . tokens import generate_token
+import re
 
 
 from restaurants_site.models import Restaurant
@@ -68,10 +69,8 @@ def restaurant(request: request, slug: str):
 def redirect(request: request, catchall):
     return HttpResponseRedirect("/")
 
-def authtest(request):
-    return render(request, "authentication/authtest.html")
-
 def signup(request: request):
+    messages.get_messages(request).used = True
 
     if request.method == "POST":
         username = request.POST.get('username')
@@ -82,20 +81,22 @@ def signup(request: request):
         password2 = request.POST.get('password2')
 
         if User.objects.filter(username=username):
-            messages.error(request, "Username already exist!")
-            return render(request, "authentication/authtest.html")
+            messages.error(request, "Login już istnieje")
 
         if User.objects.filter(email=email):
-            messages.error(request, "Email already exist!")
-            return render(request, "authentication/authtest.html")
+            messages.error(request, "Email już istnieje")
 
         if password != password2:
-            messages.error(request, "Passwords didn't match")
-            return render(request, "authentication/authtest.html")
+            messages.error(request, "Hasła nie są zgodne")
 
-        if not username.issalnum():
-            messages.error(request, "Wrong format of username")
-            return render(request, "authentication/authtest.html")
+        if not re.search("^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$", email):
+            messages.error(request, "Niepoprawny format adresu email")
+
+        if not username.isalnum():
+            messages.error(request, "Niepoprawny format loginu")
+
+        if len(messages.get_messages(request)) > 0:
+            return render(request, "authentication/signup.j2")
 
         myuser = User.objects.create_user(username, email, password)
         myuser.first_name = firstname
@@ -110,7 +111,7 @@ def signup(request: request):
 
         #Email
         subject = "[APP] Confirm mail!"
-        message = render_to_string('email_confirmation.html',{
+        message = render_to_string('email_confirmation.j2',{
             'name': myuser.first_name, 
             'domain':current_site.domain, 
             'uid': urlsafe_base64_encode(force_bytes(myuser.pk)),
@@ -121,12 +122,12 @@ def signup(request: request):
         to_list = [myuser.email]
         send_mail(subject, message, from_email, to_list, fail_silently=True)
 
-        return render(request, "authentication/signin.html")
+        return render(request, "authentication/signin.j2")
 
-    return render(request, "authentication/signup.html")
+    return render(request, "authentication/signup.j2")
 
 def signin(request):
-
+    messages.get_messages(request).used = True
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -135,19 +136,15 @@ def signin(request):
 
         if user is not None:
             login(request, user)
-            firstname = user.first_name
-            return render(request, "authentication/authtest.html", {'firstname' : firstname})
-
+            return HttpResponseRedirect("/")
         else:
-            messages.error(request, "Bad Credentials!")
-            return render(request, "authentication/authtest.html")
+            messages.error(request, "Niepoprawne dane")
 
-    return render(request, "authentication/signin.html")
+    return render(request, "authentication/signin.j2")
 
 def signout(request):
     logout(request)
-    messages.success(request, "Logged Out")
-    return render(request, "authentication/authtest.html")
+    return HttpResponseRedirect("/")
 
 def activate(request, uidb64, token):
     try:
@@ -160,7 +157,7 @@ def activate(request, uidb64, token):
         myuser.is_active = True
         myuser.save()
         login(request, myuser)
-        return render(request, "authentication/authtest.html")
+        return HttpResponseRedirect("/")
     else:
-        return render(request, "authentication/activation_failed.html")
+        return render(request, "authentication/activation_failed.j2")
 

@@ -12,7 +12,6 @@ urlpatterns = [
     path('signup', restaurants_site.views.signup),
     path('signin', restaurants_site.views.signin),
     path('signout', restaurants_site.views.signout),
-    path('authtest', restaurants_site.views.authtest),
     path('activate/<uidb64>/<token>', restaurants_site.views.activate),
     path('<str:catchall>', restaurants_site.views.redirect),
 
