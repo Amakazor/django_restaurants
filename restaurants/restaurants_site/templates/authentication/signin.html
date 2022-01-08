@@ -7,6 +7,15 @@
     <title>SignIn</title>
 </head>
 <body>
-    
+    <form action="/signin" method="post">
+        {% csrf_token %}
+        <label for="">Usermame</label>
+        <input type="text" id="usermame" name="username" required>
+        <br>
+        <label for="">Password</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+        <button type="submit">Sign In</button>
+    </form>
 </body>
 </html>

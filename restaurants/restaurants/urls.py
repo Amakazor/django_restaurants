@@ -28,6 +28,7 @@ urlpatterns = [
     path('signin', restaurants_site.views.signin),
     path('signout', restaurants_site.views.signout),
     path('authtest', restaurants_site.views.authtest),
+    path('activate/<uidb64>/<token>', restaurants_site.views.activate),
     path('<str:catchall>', restaurants_site.views.redirect),
 
 ] + static(settings.MEDIA_ROOT, document_root=settings.MEDIA_ROOT)

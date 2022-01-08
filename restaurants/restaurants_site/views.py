@@ -1,3 +1,4 @@
+import django
 from django.http import request
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import render
@@ -6,6 +7,15 @@ from restaurants_site.models import Review
 from restaurants_site.forms import AddReviewForm
 from django.contrib.auth.models import User
 from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
+from django.core.mail import send_mail
+from restaurants import settings
+from django.contrib.sites.shortcuts import get_current_site
+from django.template.loader import render_to_string
+from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
+from django.utils.encoding import force_bytes, force_str
+from . tokens import generate_token
+
 
 from restaurants_site.models import Restaurant
 
@@ -65,27 +75,92 @@ def signup(request: request):
 
     if request.method == "POST":
         username = request.POST.get('username')
-        print(request.POST)
         firstname = request.POST.get('firstname')
         lastname = request.POST.get('lastname')
         email = request.POST.get('email')
         password = request.POST.get('password')
         password2 = request.POST.get('password2')
 
+        if User.objects.filter(username=username):
+            messages.error(request, "Username already exist!")
+            return render(request, "authentication/authtest.html")
+
+        if User.objects.filter(email=email):
+            messages.error(request, "Email already exist!")
+            return render(request, "authentication/authtest.html")
+
+        if password != password2:
+            messages.error(request, "Passwords didn't match")
+            return render(request, "authentication/authtest.html")
+
+        if not username.issalnum():
+            messages.error(request, "Wrong format of username")
+            return render(request, "authentication/authtest.html")
+
         myuser = User.objects.create_user(username, email, password)
         myuser.first_name = firstname
         myuser.last_name = lastname
+        myuser.is_active = False
 
         myuser.save()
 
         messages.success(request, "Your account has been created")
+
+        current_site = get_current_site(request)
+
+        #Email
+        subject = "[APP] Confirm mail!"
+        message = render_to_string('email_confirmation.html',{
+            'name': myuser.first_name, 
+            'domain':current_site.domain, 
+            'uid': urlsafe_base64_encode(force_bytes(myuser.pk)),
+            'token': generate_token.make_token(myuser)
+        })
+        
+        from_email = settings.EMAIL_HOST_USER
+        to_list = [myuser.email]
+        send_mail(subject, message, from_email, to_list, fail_silently=True)
 
         return render(request, "authentication/signin.html")
 
     return render(request, "authentication/signup.html")
 
 def signin(request):
+
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(username = username, password = password)
+
+        if user is not None:
+            login(request, user)
+            firstname = user.first_name
+            return render(request, "authentication/authtest.html", {'firstname' : firstname})
+
+        else:
+            messages.error(request, "Bad Credentials!")
+            return render(request, "authentication/authtest.html")
+
     return render(request, "authentication/signin.html")
 
 def signout(request):
-    pass
+    logout(request)
+    messages.success(request, "Logged Out")
+    return render(request, "authentication/authtest.html")
+
+def activate(request, uidb64, token):
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        myuser = User.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        myuser = None
+    
+    if myuser is not None and generate_token.check_token(myuser, token):
+        myuser.is_active = True
+        myuser.save()
+        login(request, myuser)
+        return render(request, "authentication/authtest.html")
+    else:
+        return render(request, "authentication/activation_failed.html")
+
