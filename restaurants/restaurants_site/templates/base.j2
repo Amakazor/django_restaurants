@@ -18,9 +18,11 @@
 
         <script src="{% static 'js/stylizedSelect.js' %}"></script>
         <script src="{% static 'js/sortSelectHandler.js' %}"></script>
+        <script src="{% static 'js/hamburgerHandler.js' %}"></script>
     </head>
 
     <body>
+        {% include "components/header.j2" %}
         {% block content %}{% endblock content %}
     </body>
 </html>

@@ -1,0 +1,153 @@
+.navigation {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.5rem 0;
+
+  position: relative;
+
+  @media (max-width: 800px) {
+    justify-content: flex-end;
+  }
+
+  &__hamburgerButton {
+    background: none;
+    border: none;
+    position: relative;
+    width: 3rem;
+    height: 3rem;
+    padding: 0.5rem 0;
+    margin-right: 1rem;
+
+    & > .navigation__hamburgerButtonInside,
+    &::after,
+    &::before {
+      display: block;
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 0.25rem;
+      background: var(--color-primary);
+      left: 0;
+      right: 0;
+      transition: transform var(--time-normal);
+    }
+
+    &::after,
+    &::before {
+      transform-origin: right;
+    }
+
+    &::before {
+      top: 0.5rem;
+    }
+
+    & > .navigation__hamburgerButtonInside {
+      top: calc(50% - (0.25rem / 2));
+    }
+
+    &::after {
+      bottom: 0.5rem;
+    }
+
+    @media screen and (min-width: 801px) {
+      display: none;
+    }
+  }
+
+  &__menu {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 1rem;
+    z-index: 999999;
+    padding: 0rem 2rem;
+    width: 100%;
+    list-style: none;
+
+    background: var(--color-white);
+
+    @media (max-width: 1200px) and (min-width: 800px) {
+      gap: 0rem;
+
+      .button {
+        font-size: 0.8rem;
+      }
+    }
+
+    @media (max-width: 950px) and (min-width: 800px) {
+      .button {
+        padding: 0.75rem;
+      }
+    }
+
+    @media (max-width: 800px) {
+      flex-direction: column;
+      width: 100%;
+
+      gap: 0;
+
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 100%;
+
+      padding: 1rem 0;
+      margin-top: 0.125rem;
+      border-bottom: 0.125rem solid var(--color-primary);
+
+      transform-origin: top;
+      transform: scaleY(0);
+
+      transition: transform var(--time-normal) var(--time-normal);
+    }
+  }
+
+  &.menuOpen {
+    .navigation__menu {
+      @media screen and (max-width: 800px) {
+        transform: scaleY(1);
+        transition: transform var(--time-normal);
+      }
+    }
+
+    .navigation__menuItem {
+      @media screen and (max-width: 800px) {
+        opacity: 1;
+        transition: opacity var(--time-normal) var(--time-normal);
+      }
+    }
+
+    .navigation__hamburgerButton {
+      & > .navigation__hamburgerButtonInside {
+        transform: scaleX(0);
+      }
+
+      &::before {
+        transform: translateX(-0.6rem) rotateZ(-45deg) scaleX(0.81);
+      }
+
+      &::after {
+        transform: translateX(-0.6rem) rotateZ(45deg) scaleX(0.81);
+      }
+    }
+  }
+
+  &__menuItem {
+    @media screen and (max-width: 800px) {
+      opacity: 0;
+
+      transition: opacity var(--time-normal);
+    }
+
+    &:last-child {
+      @media screen and (min-width: 801px) {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+      }
+    }
+  }
+}
